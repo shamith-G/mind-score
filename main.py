@@ -7,6 +7,7 @@ import pandas as pd
 import uvicorn
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
+from fastapi.responses import FileResponse
 from pydantic import BaseModel, Field
 
 BASE_DIR = Path(__file__).resolve().parent
@@ -21,6 +22,21 @@ app.add_middleware(
     allow_methods=["*"],
     allow_headers=["*"],
 )
+
+
+@app.get('/', include_in_schema=False)
+async def serve_index():
+    return FileResponse(BASE_DIR / 'index.html')
+
+
+@app.get('/styles.css', include_in_schema=False)
+async def serve_styles():
+    return FileResponse(BASE_DIR / 'styles.css')
+
+
+@app.get('/scripts.js', include_in_schema=False)
+async def serve_scripts():
+    return FileResponse(BASE_DIR / 'scripts.js')
 
 
 #A first Pydantic Model
@@ -53,9 +69,9 @@ def health_check():
     return {'status': 'ok', 'service': 'student-wellness-signal'}
 
 
-@app.get('/')
-def greet():
-    return {'message': 'Lets predict your mental health score using this model'}
+@app.api_route('/favicon.ico', methods=['GET', 'HEAD'], include_in_schema=False)
+async def favicon():
+    return FileResponse(BASE_DIR / 'favicon.svg', media_type='image/svg+xml')
 
 
 if __name__ == '__main__':

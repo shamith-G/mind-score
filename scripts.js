@@ -4,9 +4,11 @@
   // ---------------------------------------------------------
   // Config
   // ---------------------------------------------------------
-  // Replace this with your deployed Render backend URL after deployment.
-  // Example: "https://student-wellness-api.onrender.com"
-  const API_BASE = "https://YOUR_RENDER_BACKEND_URL.onrender.com";
+  // Use the same origin when the app is served by FastAPI locally.
+  // If opened directly as a file, fall back to the local backend.
+  const API_BASE = window.location.protocol === "file:"
+    ? "http://127.0.0.1:8000"
+    : window.location.origin;
   const THEME_KEY = "mhs-theme";
 
   const form = document.getElementById("predict-form");
