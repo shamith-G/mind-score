@@ -7,7 +7,7 @@
   // Use the same origin when the app is served by FastAPI locally.
   // If opened directly as a file, fall back to the local backend.
   const API_BASE = window.location.protocol === "file:"
-    ? "http://127.0.0.1:8000"
+    ? "https://mind-score.onrender.com"
     : window.location.origin;
   const THEME_KEY = "mhs-theme";
 
